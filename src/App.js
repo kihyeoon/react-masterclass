@@ -11,14 +11,32 @@ const Box = styled.div`
 const Circle = styled(Box)`
   border-radius: 50px;
 `;
+const Btn = styled.button`
+  background-color: olive;
+  color: white;
+  border: 0;
+  border-radius: 15px;
+`;
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
+  background-color: white;
+`;
 
 function App() {
   return (
-    <Father>
-      <Box bgColor="teal" />
-      <Box bgColor="tomato" />
-      <Circle bgColor="blue" />
-    </Father>
+    <>
+      <Father as="header">
+        <Box bgColor="teal" />
+        <Box bgColor="tomato" />
+        <Circle bgColor="blue" />
+      </Father>
+      <Btn>Log in</Btn>
+      <Btn as="a" href="/">
+        Log in
+      </Btn>
+      <Input />
+      <Input />
+      <Input />
+    </>
   );
 }
 
