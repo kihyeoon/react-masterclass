@@ -65,7 +65,11 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+  toggleTheme: () => void;
+}
+
+function Coins({ toggleTheme }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -75,6 +79,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Coins</Title>
+        <button onClick={toggleTheme}>Toggle Theme</button>
       </Header>
 
       {isLoading ? (
