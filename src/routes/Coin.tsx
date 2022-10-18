@@ -132,11 +132,7 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  isDark: boolean;
-}
-
-function Coin({ isDark }: ICoinProps) {
+function Coin() {
   const { coinId } = useParams(); // react-router-dom v6부턴 타입 자동 지정
   const { state } = useLocation() as LocationState;
   const priceMatch = useMatch("/:coinId/price");
@@ -199,10 +195,7 @@ function Coin({ isDark }: ICoinProps) {
           </Tabs>
           <Routes>
             <Route path="price" element={<Price />} />
-            <Route
-              path="chart"
-              element={<Chart coinId={coinId!} isDark={isDark} />}
-            />
+            <Route path="chart" element={<Chart coinId={coinId!} />} />
           </Routes>
         </>
       )}
