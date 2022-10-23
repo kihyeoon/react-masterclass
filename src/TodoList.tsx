@@ -1,17 +1,46 @@
 import { useForm } from "react-hook-form";
 
 function TodoList() {
-  const { register, watch } = useForm();
-  console.log(watch());
+  const { register, handleSubmit, formState } = useForm();
+  const onValid = (data: any) => console.log(data);
+  console.log(formState.errors);
+
   return (
     <div>
-      <form>
-        <input {...register("email")} placeholder="Email" />
-        <input {...register("firstName")} placeholder="First Name" />
-        <input {...register("lastName")} placeholder="Last Name" />
-        <input {...register("username")} placeholder="Username" />
-        <input {...register("password")} placeholder="Password" />
-        <input {...register("password1")} placeholder="Password1" />
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={handleSubmit(onValid)}
+      >
+        <input
+          {...register("email", { required: true, minLength: 5 })}
+          placeholder="Email"
+        />
+        <input
+          {...register("firstName", { required: true })}
+          placeholder="First Name"
+        />
+        <input
+          {...register("lastName", { required: true })}
+          placeholder="Last Name"
+        />
+        <input
+          {...register("username", { required: true, minLength: 5 })}
+          placeholder="Username"
+        />
+        <input
+          {...register("password", {
+            required: "비밀번호를 입력해주세요.",
+            minLength: {
+              value: 5,
+              message: "비밀번호가 너무 짧습니다.",
+            },
+          })}
+          placeholder="Password"
+        />
+        <input
+          {...register("password1", { required: true, minLength: 5 })}
+          placeholder="Password1"
+        />
         <button>Add</button>
       </form>
     </div>
