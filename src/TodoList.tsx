@@ -1,9 +1,25 @@
 import { useForm } from "react-hook-form";
 
+type IForm = {
+  errors: string;
+  username: string;
+  email: string;
+  password: string;
+  password1: string;
+};
+
 function TodoList() {
-  const { register, handleSubmit, formState } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>({
+    defaultValues: {
+      email: "@naver.com",
+    },
+  });
   const onValid = (data: any) => console.log(data);
-  console.log(formState.errors);
+  console.log(errors);
 
   return (
     <div>
@@ -12,21 +28,25 @@ function TodoList() {
         onSubmit={handleSubmit(onValid)}
       >
         <input
-          {...register("email", { required: true, minLength: 5 })}
+          style={{ borderColor: errors?.email?.message ? "red" : "" }}
+          {...register("email", {
+            required: "email is required",
+            minLength: 5,
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "네이버 이메일만 가능합니다.",
+            },
+          })}
           placeholder="Email"
         />
+        <span>{errors?.email?.message}</span>
+
         <input
-          {...register("firstName", { required: true })}
-          placeholder="First Name"
-        />
-        <input
-          {...register("lastName", { required: true })}
-          placeholder="Last Name"
-        />
-        <input
-          {...register("username", { required: true, minLength: 5 })}
+          {...register("username", { required: "작성해주세요.", minLength: 5 })}
           placeholder="Username"
         />
+        <span>{errors?.username?.message}</span>
+
         <input
           {...register("password", {
             required: "비밀번호를 입력해주세요.",
@@ -37,10 +57,17 @@ function TodoList() {
           })}
           placeholder="Password"
         />
+        <span>{errors?.password?.message}</span>
+
         <input
-          {...register("password1", { required: true, minLength: 5 })}
+          {...register("password1", {
+            required: "작성해주세요.",
+            minLength: 5,
+          })}
           placeholder="Password1"
         />
+        <span>{errors?.password1?.message}</span>
+
         <button>Add</button>
       </form>
     </div>
