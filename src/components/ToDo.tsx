@@ -9,6 +9,13 @@ function ToDo({ text, category, id }: IToDo) {
     const {
       currentTarget: { name },
     } = event;
+    setToDos((prevToDos) => {
+      const targetIndex = prevToDos.findIndex((toDo) => toDo.id === id);
+      const oldToDo = prevToDos[targetIndex];
+      const newToDo = { text, id, category: name };
+      console.log(oldToDo, newToDo);
+      return prevToDos;
+    });
   };
 
   return (
