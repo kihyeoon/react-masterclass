@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import { useSetRecoilState } from "recoil";
-import toDoState, { IToDo } from "../atoms";
+import { toDoState, IToDo } from "../atoms";
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
