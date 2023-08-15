@@ -20,6 +20,20 @@ export const categoryState = atom<Category>({
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
+  effects: [
+    ({ setSelf, onSet }) => {
+      const TODO_KEY = "Todo";
+      const savedValue = localStorage.getItem(TODO_KEY);
+      if (savedValue !== null) {
+        setSelf(JSON.parse(savedValue));
+      }
+      onSet((newValue, _, isReset) => {
+        isReset
+          ? localStorage.removeItem(TODO_KEY)
+          : localStorage.setItem(TODO_KEY, JSON.stringify(newValue));
+      });
+    },
+  ],
 });
 
 export const toDoSelector = selector({
