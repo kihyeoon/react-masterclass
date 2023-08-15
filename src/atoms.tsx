@@ -11,4 +11,7 @@ export const hourSelector = selector({
     const minutes = get(minuteState);
     return Math.floor(minutes / 60);
   },
+  set: ({ set }, newValue) => {
+    set(minuteState, +newValue * 60);
+  },
 });
