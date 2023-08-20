@@ -28,12 +28,12 @@ export function Board({ toDos, boardId }: IProps) {
     <Wrapper>
       <Title>{boardId}</Title>
       <Droppable droppableId={boardId}>
-        {(magic) => (
-          <div ref={magic.innerRef} {...magic.droppableProps}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
             {toDos.map((toDo, index) => (
               <DragabbleCard key={toDo} index={index} toDo={toDo} />
             ))}
-            {magic.placeholder}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
