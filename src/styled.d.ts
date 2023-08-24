@@ -1,12 +1,19 @@
-// import original module declarations
 import "styled-components";
 
-// and extend them!
 declare module "styled-components" {
   export interface DefaultTheme {
-    textColor: string;
     bgColor: string;
-    boardColor: string;
+    textColor: string;
+    secondaryTextColor: string;
+    accentColor: string;
+    accentFadedColor: string;
     cardColor: string;
+    boardColor: string;
+    activeCardColor: string;
+    buttonColor: string;
+    hoverButtonColor: string;
+    hoverButtonOverlayColor: string;
+    glassColor: string;
+    scrollBarColor: string;
   }
 }

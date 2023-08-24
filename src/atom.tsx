@@ -1,20 +1,127 @@
 import { atom } from "recoil";
 
+export const isLightState = atom<boolean>({
+  key: "isLight",
+  default: window.matchMedia("(prefers-color-scheme: light)").matches
+    ? true
+    : false,
+});
+
 export interface IToDo {
   id: number;
   text: string;
 }
 
-interface IToDoState {
-  // 인덱스 시그니처(index signature)
-  [board: string]: IToDo[];
+export interface IBoard {
+  id: number;
+  title: string;
+  toDos: IToDo[];
 }
 
-export const toDoState = atom<IToDoState>({
-  key: "toDo",
-  default: {
-    "To Do": [],
-    Doing: [],
-    Done: [],
-  },
+// const instanceOfToDo = (object: unknown): object is IToDo => {
+//   return (
+//     object !== null &&
+//     object !== undefined &&
+//     object.constructor === Object &&
+//     typeof (object as { id: unknown; text: unknown }).id === "number" &&
+//     typeof (object as { id: unknown; text: unknown }).text === "string"
+//   );
+// };
+
+// const instanceOfBoard = (object: unknown): object is IBoard => {
+//   return (
+//     object !== null &&
+//     object !== undefined &&
+//     object.constructor === Object &&
+//     typeof (object as { id: unknown; title: unknown; toDos: unknown }).id ===
+//       "number" &&
+//     typeof (object as { id: unknown; title: unknown; toDos: unknown }).title ===
+//       "string" &&
+//     Array.isArray(
+//       (object as { id: unknown; title: unknown; toDos: unknown }).toDos
+//     ) &&
+//     (object as { id: unknown; title: unknown; toDos: unknown[] }).toDos.every(
+//       (toDo) => instanceOfToDo(toDo)
+//     )
+//   );
+// };
+
+// const instanceOfBoards = (object: unknown): object is IBoard[] => {
+//   return (
+//     Array.isArray(object) && object.every((board) => instanceOfBoard(board))
+//   );
+// };
+
+const localStorageEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+
+    if (savedValue !== null && savedValue !== undefined) {
+      const json = (raw: string) => {
+        try {
+          return JSON.parse(raw);
+        } catch (error) {
+          return false;
+        }
+      };
+
+      // if (json(savedValue) && instanceOfBoards(json(savedValue))) {
+      if (json(savedValue)) {
+        setSelf(json(savedValue));
+      }
+    }
+
+    onSet((newValue: IBoard[]) => {
+      localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
+
+export const toDosState = atom<IBoard[]>({
+  key: "toDos",
+  default: [
+    {
+      title: "해야 함",
+      id: 0,
+      toDos: [
+        { text: "빨래 널기", id: 0 },
+        { text: "코로나 검사하기", id: 1 },
+        { text: "책 읽기", id: 2 },
+        { text: "마스크 사기", id: 3 },
+        { text: "커피 마시기", id: 4 },
+        { text: "설거지 하기", id: 5 },
+        { text: "공부하기", id: 6 },
+        { text: "운동하기", id: 7 },
+        { text: "이건 이름이 되게 긴데 마우스를 여기에도 올려보세요", id: 8 },
+        { text: "테스트 1", id: 9 },
+        { text: "테스트 2", id: 10 },
+        { text: "테스트 3", id: 11 },
+        { text: "테스트 4", id: 12 },
+        { text: "스크롤이랑 드래그도", id: 13 },
+        { text: "해보세요", id: 14 },
+        { text: "할 일 1", id: 15 },
+        { text: "할 일 2", id: 16 },
+        { text: "할 일 3", id: 17 },
+        { text: "할 일 4", id: 18 },
+        { text: "할 일 5", id: 19 },
+        { text: "할 일 6", id: 20 },
+        { text: "할 일 7", id: 21 },
+        { text: "할 일 8", id: 22 },
+        { text: "할 일 9", id: 23 },
+        { text: "할 일 10", id: 24 },
+        { text: "할 일 11", id: 25 },
+        { text: "할 일 12", id: 26 },
+      ],
+    },
+    { title: "하는 중", id: 1, toDos: [] },
+    {
+      title: "끝",
+      id: 2,
+      toDos: [
+        { text: "은행 다녀오기", id: 27 },
+        { text: "보드나 할 일을 추가해보세요!", id: 28 },
+      ],
+    },
+  ],
+  effects: [localStorageEffect("trello-clone-to-dos")],
 });
