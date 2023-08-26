@@ -9,19 +9,27 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 200px;
   height: 200px;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
 function App() {
   return (
     <Wrapper>
-      <Box />
-      <motion.div></motion.div>
+      <Box
+        initial={{ scale: 0 }}
+        animate={{ rotate: 180, scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 10,
+          delay: 0.5,
+        }}
+      />
     </Wrapper>
   );
 }
